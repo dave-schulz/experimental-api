@@ -2,6 +2,7 @@
   "name": "experimental-api",
   "version": "0.1.0",
   "private": true,
+  "author": "Davey Schulz",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
