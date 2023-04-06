@@ -60,7 +60,6 @@ const RequestApiKey: FC<RequestApiKeyProps> = ({}) => {
           Your API key
         </label>
         <div className="relative rounded-md shadow-sm sm:min-w-0 sm:flex-1">
-          {/* Show a copy icon if API key was generated successfully */}
           {apiKey ? (
             <CopyButton
               className="absolute inset-y-0 right-0 animate-in fade-in duration-300"

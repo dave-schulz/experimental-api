@@ -3,9 +3,11 @@ import { db } from '@/lib/db';
 import { getServerSession } from 'next-auth';
 import { notFound } from 'next/navigation';
 import { formatDistance } from 'date-fns';
-import { Heading } from 'lucide-react';
+import Heading from './layout/Heading';
 import Paragraph from './layout/Paragraph';
 import { Input } from './layout/Input';
+import Table from './layout/Table';
+import ApiKeyOptions from './ApiKeyOptions';
 
 const ApiDashboard = async () => {
   const user = await getServerSession(authOptions);
@@ -28,7 +30,7 @@ const ApiDashboard = async () => {
     },
   });
 
-  const serializableRequest = userRequests.map((req) => ({
+  const serializableRequests = userRequests.map((req) => ({
     ...req,
     timestamp: formatDistance(new Date(req.timestamp), new Date()),
   }));
@@ -39,14 +41,17 @@ const ApiDashboard = async () => {
       <div className="flex flex-col md:flex-row gap-4 justify-center md:justify-start items-center">
         <Paragraph>Your API key:</Paragraph>
         <Input className="w-fit truncate" readOnly value={activeApiKey.key} />
-        {/* <ApiKeyOptions apiKeyKey={activeApiKey.key} /> */}
+        <ApiKeyOptions
+          apiKeyId={activeApiKey.id}
+          apiKeyKey={activeApiKey.key}
+        />
       </div>
 
       <Paragraph className="text-center md:text-left mt-4 -mb-4">
         Your API history:
       </Paragraph>
 
-      {/* <Table userRequests={serializableRequests} /> */}
+      <Table userRequests={serializableRequests} />
     </div>
   );
 };
