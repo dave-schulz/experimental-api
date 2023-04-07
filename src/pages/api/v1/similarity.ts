@@ -1,10 +1,9 @@
-import { ApiKey } from '@prisma/client';
+import { cosineSimilarity } from '@/helpers/cosine-similarity';
 import { withMethods } from '@/lib/api-middlewares/with-methods';
-import { NextApiRequest, NextApiResponse } from 'next';
-import { z } from 'zod';
 import { db } from '@/lib/db';
 import { openai } from '@/lib/openai';
-import { cosineSimilarity } from '@/helpers/cosine-similarity';
+import { NextApiRequest, NextApiResponse } from 'next';
+import { z } from 'zod';
 
 const reqSchema = z.object({
   text1: z.string().max(1000),
@@ -15,7 +14,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const body = req.body as unknown;
 
   const apiKey = req.headers.authorization;
-
   if (!apiKey) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
@@ -35,7 +33,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     const start = new Date();
-
     const embeddings = await Promise.all(
       [text1, text2].map(async (text) => {
         const res = await openai.createEmbedding({
@@ -68,7 +65,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(400).json({ error: error.issues });
     }
 
-    return res.status(500).json({ error: 'Internal Server Error' });
+    return res.status(500).json({ error: 'Internal server error' });
   }
 };
 

@@ -5,6 +5,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from './layout/DropdownMenu';
 import Button from './layout/Button';
@@ -15,11 +16,10 @@ import { useRouter } from 'next/navigation';
 import { revokeApiKey } from '@/helpers/revoke-api-key';
 
 interface ApiKeyOptionsProps {
-  apiKeyId: string;
   apiKeyKey: string;
 }
 
-const ApiKeyOptions: FC<ApiKeyOptionsProps> = ({ apiKeyId, apiKeyKey }) => {
+const ApiKeyOptions: FC<ApiKeyOptionsProps> = ({ apiKeyKey }) => {
   const [isCreatingNew, setIsCreatingNew] = useState<boolean>(false);
   const [isRevoking, setIsRevoking] = useState<boolean>(false);
   const router = useRouter();
@@ -61,7 +61,7 @@ const ApiKeyOptions: FC<ApiKeyOptionsProps> = ({ apiKeyId, apiKeyKey }) => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger disabled={isCreatingNew || isRevoking}>
+      <DropdownMenuTrigger disabled={isCreatingNew || isRevoking} asChild>
         <Button variant="ghost" className="flex gap-2 items-center">
           <p>
             {isCreatingNew
@@ -75,7 +75,6 @@ const ApiKeyOptions: FC<ApiKeyOptionsProps> = ({ apiKeyId, apiKeyKey }) => {
           ) : null}
         </Button>
       </DropdownMenuTrigger>
-
       <DropdownMenuContent>
         <DropdownMenuItem
           onClick={() => {
@@ -90,10 +89,11 @@ const ApiKeyOptions: FC<ApiKeyOptionsProps> = ({ apiKeyId, apiKeyKey }) => {
         >
           Copy
         </DropdownMenuItem>
-
+        <DropdownMenuSeparator />
         <DropdownMenuItem onClick={createNewApiKey}>
           Create new key
         </DropdownMenuItem>
+        <DropdownMenuSeparator />
         <DropdownMenuItem onClick={revokeCurrentApiKey}>
           Revoke key
         </DropdownMenuItem>

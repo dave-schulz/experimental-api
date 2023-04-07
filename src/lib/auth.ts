@@ -4,9 +4,8 @@ import { NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 
 function getGoogleCredentials(): { clientId: string; clientSecret: string } {
-  const clientId = process.env.GOOGLE_CLIENT_ID as string;
-  const clientSecret = process.env.GOOGLE_CLIENT_SECRET as string;
-
+  const clientId = process.env.GOOGLE_CLIENT_ID;
+  const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
   if (!clientId || clientId.length === 0) {
     throw new Error('Missing GOOGLE_CLIENT_ID');
   }
@@ -22,7 +21,6 @@ export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
   session: {
     strategy: 'jwt',
-    maxAge: 30 * 24 * 60 * 60,
   },
   pages: {
     signIn: '/login',

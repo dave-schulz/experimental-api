@@ -2,17 +2,25 @@
 
 import { FC, useState } from 'react';
 import Button from './layout/Button';
+import { signOut } from 'next-auth/react';
+import { toast } from './layout/Toast';
 
 interface SignOutButtonProps {}
 
 const SignOutButton: FC<SignOutButtonProps> = ({}) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const signUserOut = async () => {
-    setIsLoading(true);
-
     try {
-    } catch (error) {}
+      setIsLoading(true);
+      await signOut();
+    } catch (error) {
+      toast({
+        title: 'Error signing out',
+        message: 'Please try again later.',
+        type: 'error',
+      });
+    }
   };
 
   return (
